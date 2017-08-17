@@ -1,0 +1,57 @@
+<div class="animated fadeIn">
+    <!-- Upload Box -->
+    <div class="row">
+        <div class="col-sm-12 col-lg-12">
+            <div class="card card-inverse card-success" style="background-color: #333; border-color: #333;">
+
+                <div class="card-block  p-b-0">
+                    <h3 class="card-title">Select a File</h3>
+                    <label class="custom-file">
+                    <input type="file" id="image_file" ng-model="image_file" class="custom-file-input" validfiles accept=".gif, .jpeg">
+                    <span class="custom-file-control"></span>
+                    </label>
+                    <div class="btn-group pull-right p-a-0">
+                        <button type="button" ng-click="upload_image()" id="btn_upload" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Uploading..."
+                            data-original-text="<i class='icon-camera'/>  Analyze" class="btn btn-primary">
+                            <i class="icon-camera"></i> Analyze
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Boostrap Card Columns for Analyzed Images -->
+    <div class="row"> </div>
+    <div class="card-columns">
+        <div class="card pb-2" ng-repeat="b_image in bucket_images ">
+            <img ng-src="{{b_image.URL}}" class="card-img-top " alt="...">
+
+            <div class="card-block p-b-0" style="min-height:100px;">
+                <div id="spinner-wrapper_{{$index}}" class="spinner-wrapper">
+                    <div class="spinner"></div>
+                </div>
+                <div ng-show="b_image.time">
+                    <div class="h4 m-b-0 text-primary">{{b_image.time| number:2}} Sec.</div>
+                    <small class="text-muted text-uppercase font-weight-bold">Time Taken</small>
+                </div>
+                <ul class="horizontal-bars type-2">
+                    <li ng-repeat="result in b_image.Item">
+                        <span class="title"> {{ result.name | limitTo: 40 }}{{result.name.length > 40 ? "&hellip;" : ""}}</span>
+                        <span class="value">{{result.score*100| number:2}}%</span>
+                        <div class="bars">
+                            <progress class="progress progress-xs progress-warning m-a-0" max="100" value="{{result.score*100}}">{{result.score| number:2}}%</progress>
+                        </div>
+                    </li>
+                </ul>
+                <div class="btn-group  mt-2 float-right">
+                    <button type="button" ng-click="delete_photo(b_image.Key,$index)" class="btn btn-primary">
+                            <i class="icon-trash"></i> Remove
+                        </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
